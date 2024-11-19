@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
