@@ -25,11 +25,9 @@ public class Section extends AbstractEntity {
     @JoinColumn(name="instructor_id")
     private Instructor instructor;
 
-    @Size(min=1, max=4, message = "Building must be between 1 and 4 characters.")
-    private String building;
-
-    @Size(min=1, max=4, message = "Room number must be between 1 and 4 characters.")
-    private String roomNumber;
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     private LocalTime startTime;
 
@@ -39,28 +37,24 @@ public class Section extends AbstractEntity {
 
     public Section() {}
 
-    public Section(int sectionNumber, Course course, Instructor instructor, String building, String roomNumber, LocalTime startTime, LocalTime stopTime) {
-        this.sectionNumber = sectionNumber;
+    public Section(Course course, int sectionNumber, Instructor instructor, Location location, LocalTime startTime, LocalTime stopTime) {
         this.course = course;
+        this.sectionNumber = sectionNumber;
         this.instructor = instructor;
-        this.building = building;
-        this.roomNumber = roomNumber;
+        this.location = location;
         this.startTime = startTime;
         this.stopTime = stopTime;
+        this.isOnline = false;
     }
 
-    public Section(int sectionNumber, Course course, Instructor instructor, String building, String roomNumber, LocalTime startTime, LocalTime stopTime, boolean isOnline) {
-        this.sectionNumber = sectionNumber;
+    public Section(Course course, int sectionNumber, Instructor instructor, boolean isOnline) {
         this.course = course;
+        this.sectionNumber = sectionNumber;
         this.instructor = instructor;
-        this.building = building;
-        this.roomNumber = roomNumber;
-        this.startTime = startTime;
-        this.stopTime = stopTime;
         this.isOnline = isOnline;
     }
 
-    @AssertTrue(message = "Stop time must be after start time.")
+    @AssertTrue(message = "Start time must be earlier than stop time.")
     public boolean isValidTimeRange() {
         // Null values are allowed for unscheduled times
         if (startTime == null || stopTime == null) {
@@ -69,9 +63,14 @@ public class Section extends AbstractEntity {
         return stopTime.isAfter(startTime);
     }
 
-    @AssertTrue(message = "Both start and stop times must be set together.")
+    @AssertTrue(message = "Both start and stop times must be set together or left blank.")
     public boolean isTimeConsistencyValid() {
         return (startTime == null && stopTime == null) || (startTime != null && stopTime != null);
+    }
+
+    @AssertTrue(message = "Online sections should not have a physical location.")
+    public boolean isLocationValid() {
+        return !isOnline || location == null;
     }
 
     public int getSectionNumber() {
@@ -98,20 +97,12 @@ public class Section extends AbstractEntity {
         this.instructor = instructor;
     }
 
-    public String getBuilding() {
-        return building;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setBuilding(String building) {
-        this.building = building;
-    }
-
-    public String getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public LocalTime getStartTime() {
@@ -138,11 +129,16 @@ public class Section extends AbstractEntity {
         this.stopTime = stopTime;
     }
 
-    public boolean isOnline() {
+    public boolean getIsOnline() {
         return isOnline;
     }
 
     public void setOnline(boolean online) {
         isOnline = online;
+    }
+
+    @Override
+    public String toString() {
+        return course.getName() + " " + sectionNumber;
     }
 }

@@ -1,6 +1,7 @@
 package com.davidwerfelmann.course_scheduler.models;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -34,4 +35,60 @@ public class Instructor  extends AbstractEntity {
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
     private final List<Section> sections = new ArrayList<>();
 
+    public Instructor() {}
+
+    public Instructor(String lastName, String firstName, String email, Boolean isFullTime) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+        this.isFullTime = isFullTime;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getFullTime() {
+        return isFullTime;
+    }
+
+    public void setFullTime(Boolean fullTime) {
+        isFullTime = fullTime;
+    }
+
+    public Set<Area> getAcademicArea() {
+        return academicArea;
+    }
+
+    public void addAcademicArea(Area area) {
+        academicArea.add(area);
+    }
+
+    public void removeAcademicArea(Area area) {
+        academicArea.remove(area);
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
 }
