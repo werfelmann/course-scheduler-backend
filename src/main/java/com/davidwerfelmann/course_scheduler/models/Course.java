@@ -26,10 +26,6 @@ public class Course extends AbstractEntity {
     private int creditHours;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
-    private Area academicArea;
-
-    @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Rotation.class)
     private final Set<Rotation> typicalRotation = new HashSet<>();
 
@@ -41,11 +37,10 @@ public class Course extends AbstractEntity {
 
     public Course () {};
 
-    public Course(String courseNumber, String name, int creditHours, Area academicArea, Set<Rotation> typicalRotation) {
+    public Course(String courseNumber, String name, int creditHours, Set<Rotation> typicalRotation) {
         this.courseNumber = courseNumber;
         this.name = name;
         this.creditHours = creditHours;
-        this.academicArea = academicArea;
         this.typicalRotation.addAll(typicalRotation);
     }
 
@@ -65,7 +60,7 @@ public class Course extends AbstractEntity {
         return name;
     }
 
-    public void setName() {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -75,14 +70,6 @@ public class Course extends AbstractEntity {
 
     public void setCreditHours(int creditHours) {
         this.creditHours = creditHours;
-    }
-
-    public Area getAcademicArea() {
-        return academicArea;
-    }
-
-    public void setAcademicArea(Area academicArea) {
-        this.academicArea = academicArea;
     }
 
     public Set<Rotation> getTypicalRotation() {

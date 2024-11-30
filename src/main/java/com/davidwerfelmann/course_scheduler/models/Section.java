@@ -1,8 +1,6 @@
 package com.davidwerfelmann.course_scheduler.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +17,10 @@ public class Section extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name="course_id")
     private Course course;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Area academicArea;
 
     @NotNull
     @ManyToOne
@@ -37,9 +39,10 @@ public class Section extends AbstractEntity {
 
     public Section() {}
 
-    public Section(Course course, int sectionNumber, Instructor instructor, Location location, LocalTime startTime, LocalTime stopTime) {
+    public Section(Course course, int sectionNumber, Area academicArea, Instructor instructor, Location location, LocalTime startTime, LocalTime stopTime) {
         this.course = course;
         this.sectionNumber = sectionNumber;
+        this.academicArea = academicArea;
         this.instructor = instructor;
         this.location = location;
         this.startTime = startTime;
@@ -87,6 +90,14 @@ public class Section extends AbstractEntity {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public Area getAcademicArea() {
+        return academicArea;
+    }
+
+    public void setAcademicArea(Area academicArea) {
+        this.academicArea = academicArea;
     }
 
     public Instructor getInstructor() {

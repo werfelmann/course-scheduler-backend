@@ -47,4 +47,26 @@ public class CourseController {
         Course newCourse = courseRepository.save(course);
         return newCourse;
     }
+
+    @PutMapping("/{courseId}")
+    public Course updateCourse(@PathVariable Integer courseId, @RequestBody @Valid Course updatedCourse, Errors errors) {
+        if(errors.hasErrors()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Validation failed: " + errors.getAllErrors());
+        }
+
+        Optional<Course> optionalCourse = courseRepository.findById(courseId);
+
+        if (optionalCourse.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This course could not be found");
+        }
+
+        Course existingCourse = optionalCourse.get();
+
+        existingCourse.setName(updatedCourse.getName());
+        existingCourse.setCourseNumber(updatedCourse.getCourseNumber());
+        existingCourse.setCreditHours(updatedCourse.getCreditHours());
+        existingCourse.setTypicalRotation(updatedCourse.getTypicalRotation());
+
+        return courseRepository.save(existingCourse);
+    }
 }
