@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/courses")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CourseController {
 
     @Autowired
@@ -35,7 +36,6 @@ public class CourseController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found.");
         }
-
     }
 
     @PostMapping
