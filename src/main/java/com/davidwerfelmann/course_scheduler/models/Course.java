@@ -23,7 +23,10 @@ public class Course extends AbstractEntity {
     private String name;
 
     @NotNull
-    private int creditHours;
+    private int minCreditHours;
+
+    @NotNull
+    private int maxCreditHours;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Rotation.class)
@@ -37,10 +40,11 @@ public class Course extends AbstractEntity {
 
     public Course () {};
 
-    public Course(String courseNumber, String name, int creditHours, Set<Rotation> typicalRotation) {
+    public Course(String courseNumber, String name, int minCreditHours, int maxCreditHours, Set<Rotation> typicalRotation) {
         this.courseNumber = courseNumber;
         this.name = name;
-        this.creditHours = creditHours;
+        this.minCreditHours = minCreditHours;
+        this.maxCreditHours = maxCreditHours;
         this.typicalRotation.addAll(typicalRotation);
     }
 
@@ -52,10 +56,6 @@ public class Course extends AbstractEntity {
         this.courseNumber = courseNumber;
     }
 
-    public String getFullCourseNumber() {
-        return PREFIX + " " + courseNumber;
-    }
-
     public String getName() {
         return name;
     }
@@ -64,12 +64,24 @@ public class Course extends AbstractEntity {
         this.name = name;
     }
 
-    public int getCreditHours() {
-        return creditHours;
+    public String getFullCourseNumber() {
+        return PREFIX + " " + courseNumber;
     }
 
-    public void setCreditHours(int creditHours) {
-        this.creditHours = creditHours;
+    public int getMinCreditHours() {
+        return minCreditHours;
+    }
+
+    public void setMinCreditHours(int minCreditHours) {
+        this.minCreditHours = minCreditHours;
+    }
+
+    public int getMaxCreditHours() {
+        return maxCreditHours;
+    }
+
+    public void setMaxCreditHours(int maxCreditHours) {
+        this.maxCreditHours = maxCreditHours;
     }
 
     public Set<Rotation> getTypicalRotation() {
