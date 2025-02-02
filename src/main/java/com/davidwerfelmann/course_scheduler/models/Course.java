@@ -35,6 +35,9 @@ public class Course extends AbstractEntity {
     @Size(max=255, message="Note cannot exceed 255 characters.")
     private String notes;
 
+    @Column(length = 1000, nullable = true)
+    private String description;
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private final List<Section> sections = new ArrayList<>();
 
