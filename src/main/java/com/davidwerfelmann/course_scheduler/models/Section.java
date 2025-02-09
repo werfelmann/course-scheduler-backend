@@ -37,9 +37,13 @@ public class Section extends AbstractEntity {
 
     private boolean isOnline = false;
 
+    @ManyToOne
+    @JoinColumn(name = "semester_schedule_id")
+    private SemesterSchedule semesterSchedule;
+
     public Section() {}
 
-    public Section(Course course, int sectionNumber, Area academicArea, Instructor instructor, Location location, LocalTime startTime, LocalTime stopTime) {
+    public Section(Course course, int sectionNumber, Area academicArea, Instructor instructor, Location location, LocalTime startTime, LocalTime stopTime, SemesterSchedule semesterSchedule) {
         this.course = course;
         this.sectionNumber = sectionNumber;
         this.academicArea = academicArea;
@@ -48,6 +52,7 @@ public class Section extends AbstractEntity {
         this.startTime = startTime;
         this.stopTime = stopTime;
         this.isOnline = false;
+        setSemesterSchedule(semesterSchedule);
     }
 
     public Section(Course course, int sectionNumber, Instructor instructor, boolean isOnline) {
@@ -140,12 +145,23 @@ public class Section extends AbstractEntity {
         this.stopTime = stopTime;
     }
 
-    public boolean getIsOnline() {
+    public boolean isOnline() {
         return isOnline;
     }
 
     public void setOnline(boolean online) {
         isOnline = online;
+    }
+
+    public SemesterSchedule getSemesterSchedule() {
+        return semesterSchedule;
+    }
+
+    public void setSemesterSchedule(SemesterSchedule semesterSchedule) {
+        this.semesterSchedule = semesterSchedule;
+        if (semesterSchedule != null && !semesterSchedule.getSections().contains(this)) {
+            semesterSchedule.addSection(this);
+        }
     }
 
     @Override
