@@ -95,7 +95,7 @@ public class SectionDTO {
         return "SectionDTO{" +
                 "sectionNumber=" + sectionNumber +
                 ", course=" + (course != null ? course.getFullCourseNumber() : "N/A") +
-                ", instructor=" + (instructor != null ? instructor.getName() : "N/A") +
+//                ", instructor=" + (instructor != null ? instructor.getName() : "N/A") +
                 ", location=" + (location != null ? location.getBuilding() + " " + location.getRoomNumber() : "Online") +
                 ", academicArea=" + academicArea +
                 ", startTime='" + startTime + '\'' +

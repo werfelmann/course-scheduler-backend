@@ -10,30 +10,30 @@ public class SemesterScheduleMapper {
 
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("hh:mm a");
 
-    public static SemesterScheduleDTO toDTO(SemesterSchedule semesterSchedule) {
+    public static SemesterScheduleDTO semesterScheduletoToDTO(SemesterSchedule semesterSchedule) {
         return new SemesterScheduleDTO(
                 semesterSchedule.getSemester(),
                 semesterSchedule.getYear(),
                 semesterSchedule.getSections().stream()
-                        .map(SemesterScheduleMapper::toDTO)
+                        .map(SemesterScheduleMapper::sectionToDTO)
                         .collect(Collectors.toList())
         );
     }
 
-    public static SectionDTO toDTO(Section section) {
+    public static SectionDTO sectionToDTO(Section section) {
         return new SectionDTO(
-                section.getSectionNumber(),
-                toDTO(section.getCourse()),
-                toDTO(section.getInstructor()),
-                section.getLocation() != null ? toDTO(section.getLocation()) : null,
-                section.getAcademicArea(),
-                section.getStartTime() != null ? section.getStartTime().format(TIME_FORMATTER) : "Not Scheduled",
-                section.getStopTime() != null ? section.getStopTime().format(TIME_FORMATTER) : "Not Scheduled",
-                section.isOnline()
+//                section.getSectionNumber(),
+////                toDTO(section.getCourse()),
+////                toDTO(section.getInstructor()),
+//                section.getLocation() != null ? toDTO(section.getLocation()) : null,
+//                section.getAcademicArea(),
+//                section.getStartTime() != null ? section.getStartTime().format(TIME_FORMATTER) : "Not Scheduled",
+//                section.getStopTime() != null ? section.getStopTime().format(TIME_FORMATTER) : "Not Scheduled",
+//                section.isOnline()
         );
     }
 
-    private static CourseDTO toDTO(Course course) {
+    private static CourseDTO courseToDTO(Course course) {
         return new CourseDTO(
                 course.getId(),
                 course.getName(),
@@ -44,14 +44,14 @@ public class SemesterScheduleMapper {
         );
     }
 
-    private static InstructorDTO toDTO(Instructor instructor) {
+    private static InstructorDTO instructorToDTO(Instructor instructor) {
         return new InstructorDTO(
                 instructor.getFirstName(),
                 instructor.getLastName()
         );
     }
 
-    private static LocationDTO toDTO(Location location) {
+    private static LocationDTO locationToDTO(Location location) {
         return new LocationDTO(
                 location.getBuilding(),
                 location.getRoom()
