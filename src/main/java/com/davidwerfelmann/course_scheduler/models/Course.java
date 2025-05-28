@@ -16,10 +16,11 @@ public class Course extends AbstractEntity {
 
     @NotNull
     @Pattern (regexp = "\\d{4}", message = "Course number must be a 4-digit number.")
+    @Column(unique = true)
     private String courseNumber;
 
     @NotNull
-    @Size(min=5, max=70, message="Course name must be between 5 and 70 characters.")
+    @Size(min=5, max=75, message="Course name must be between 5 and 75 characters.")
     private String name;
 
     @NotNull
