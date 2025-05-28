@@ -2,6 +2,7 @@ package com.davidwerfelmann.course_scheduler.controllers;
 
 import com.davidwerfelmann.course_scheduler.data.CourseRepository;
 import com.davidwerfelmann.course_scheduler.dto.CourseDTO;
+import com.davidwerfelmann.course_scheduler.mapper.DTOMapper;
 import com.davidwerfelmann.course_scheduler.models.Course;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,7 @@ public class CourseController {
     public ResponseEntity<List<CourseDTO>> getAllCourses() {
         List<Course> courseList = (List<Course>) courseRepository.findAll();
         List<CourseDTO> courseDTOList = courseList.stream()
-                .map(course -> new CourseDTO(
-                        course.getId(),
-                        course.getName(),
-                        course.getCourseNumber(),
-                        course.getMinCreditHours(),
-                        course.getMaxCreditHours(),
-                        course.getTypicalRotation()))
+                .map(DTOMapper::courseToDTO)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(courseDTOList);
     }
@@ -44,13 +39,7 @@ public class CourseController {
         Optional<Course> optCourse = courseRepository.findById(courseId);
         if (optCourse.isPresent()) {
             Course course = optCourse.get();
-            CourseDTO courseDTO = new CourseDTO(
-                    course.getId(),
-                    course.getName(),
-                    course.getCourseNumber(),
-                    course.getMinCreditHours(),
-                    course.getMaxCreditHours(),
-                    course.getTypicalRotation());
+            CourseDTO courseDTO = DTOMapper.courseToDTO(course);
             return ResponseEntity.ok(courseDTO);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -72,11 +61,18 @@ public class CourseController {
     @PostMapping
     public ResponseEntity<CourseDTO> createCourse(@RequestBody @Valid CourseDTO courseDTO, Errors errors) {
         if (errors.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .build();
         }
 
         if (courseDTO.getMaxCreditHours() < courseDTO.getMinCreditHours()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+
+        if (courseRepository.existsByCourseNumber(courseDTO.getCourseNumber())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .build();
         }
 
         Course newCourse = new Course();
@@ -87,14 +83,7 @@ public class CourseController {
         newCourse.setTypicalRotation(courseDTO.getTypicalRotation());
 
         Course savedCourse = courseRepository.save(newCourse);
-
-        CourseDTO responseDTO = new CourseDTO(
-                savedCourse.getId(),
-                savedCourse.getName(),
-                savedCourse.getCourseNumber(),
-                savedCourse.getMinCreditHours(),
-                savedCourse.getMaxCreditHours(),
-                savedCourse.getTypicalRotation());
+        CourseDTO responseDTO = DTOMapper.courseToDTO(savedCourse);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }

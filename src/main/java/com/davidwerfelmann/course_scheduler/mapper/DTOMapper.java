@@ -6,7 +6,7 @@ import com.davidwerfelmann.course_scheduler.models.*;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
-public class SemesterScheduleMapper {
+public class DTOMapper {
 
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("hh:mm a");
 
@@ -15,7 +15,7 @@ public class SemesterScheduleMapper {
                 semesterSchedule.getSemester(),
                 semesterSchedule.getYear(),
                 semesterSchedule.getSections().stream()
-                        .map(SemesterScheduleMapper::sectionToDTO)
+                        .map(DTOMapper::sectionToDTO)
                         .collect(Collectors.toList())
         );
     }
@@ -33,7 +33,7 @@ public class SemesterScheduleMapper {
         );
     }
 
-    private static CourseDTO courseToDTO(Course course) {
+    public static CourseDTO courseToDTO(Course course) {
         return new CourseDTO(
                 course.getId(),
                 course.getName(),
@@ -44,14 +44,14 @@ public class SemesterScheduleMapper {
         );
     }
 
-    private static InstructorDTO instructorToDTO(Instructor instructor) {
+    public static InstructorDTO instructorToDTO(Instructor instructor) {
         return new InstructorDTO(
                 instructor.getFirstName(),
                 instructor.getLastName()
         );
     }
 
-    private static LocationDTO locationToDTO(Location location) {
+    public static LocationDTO locationToDTO(Location location) {
         return new LocationDTO(
                 location.getBuilding(),
                 location.getRoom()
