@@ -40,7 +40,9 @@ public class DTOMapper {
                 course.getCourseNumber(),
                 course.getMinCreditHours(),
                 course.getMaxCreditHours(),
-                course.getTypicalRotation()
+                course.getTypicalRotation(),
+                course.getDescription(),
+                course.getNotes()
         );
     }
 

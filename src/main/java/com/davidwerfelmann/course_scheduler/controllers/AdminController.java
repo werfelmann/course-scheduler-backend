@@ -1,10 +1,9 @@
 package com.davidwerfelmann.course_scheduler.controllers;
 
-import com.davidwerfelmann.course_scheduler.data.WebScraper;
+import com.davidwerfelmann.course_scheduler.utilities.WebScraper;
+import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -17,8 +16,8 @@ public class AdminController {
     }
 
     @PostMapping("/import-catalog")
-    public ResponseEntity<String> importCatalog() {
-        webScraper.importCatalog();
+    public ResponseEntity<String> importCatalog(@RequestParam String url) {
+        webScraper.importCatalog(url);
         return ResponseEntity.ok("Catalog import triggered");
     }
 }

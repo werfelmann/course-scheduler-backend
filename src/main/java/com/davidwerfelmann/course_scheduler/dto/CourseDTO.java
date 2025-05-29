@@ -13,8 +13,16 @@ public class CourseDTO {
     private int maxCreditHours;
     private Set<Rotation> typicalRotation;
     private static final String PREFIX = "MUSC";
+    private String description;
+    private String notes;
+
+    public CourseDTO() {};
 
     public CourseDTO(Long id, String name, String courseNumber, int minCreditHours, int maxCreditHours, Set<Rotation> typicalRotation) {
+        this(id, name, courseNumber, minCreditHours, maxCreditHours, typicalRotation, null, null);
+    }
+
+    public CourseDTO(Long id, String name, String courseNumber, int minCreditHours, int maxCreditHours, Set<Rotation> typicalRotation, String description, String notes) {
         this.id = id;
         this.name = name;
         this.courseNumber = courseNumber;
@@ -22,6 +30,8 @@ public class CourseDTO {
         this.minCreditHours = minCreditHours;
         this.maxCreditHours = maxCreditHours;
         this.typicalRotation = typicalRotation;
+        this.description = description;
+        this.notes = notes;
     }
 
     public Long getId() {
@@ -78,5 +88,21 @@ public class CourseDTO {
 
     public String getFormattedCreditHours() {
         return (minCreditHours == maxCreditHours) ? String.valueOf(minCreditHours) : (minCreditHours + "-" + maxCreditHours);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

@@ -81,6 +81,8 @@ public class CourseController {
         newCourse.setMinCreditHours(courseDTO.getMinCreditHours());
         newCourse.setMaxCreditHours(courseDTO.getMaxCreditHours());
         newCourse.setTypicalRotation(courseDTO.getTypicalRotation());
+        newCourse.setDescription(courseDTO.getDescription());
+        newCourse.setNotes(courseDTO.getNotes());
 
         Course savedCourse = courseRepository.save(newCourse);
         CourseDTO responseDTO = DTOMapper.courseToDTO(savedCourse);
@@ -105,6 +107,8 @@ public class CourseController {
         existingCourse.setMinCreditHours(courseDTO.getMinCreditHours());
         existingCourse.setMaxCreditHours(courseDTO.getMaxCreditHours());
         existingCourse.setTypicalRotation(courseDTO.getTypicalRotation());
+        existingCourse.setDescription(courseDTO.getDescription());
+        existingCourse.setNotes(courseDTO.getNotes());
 
         if (existingCourse.getMaxCreditHours() < existingCourse.getMinCreditHours()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -117,7 +121,9 @@ public class CourseController {
                 savedCourse.getCourseNumber(),
                 savedCourse.getMinCreditHours(),
                 savedCourse.getMaxCreditHours(),
-                savedCourse.getTypicalRotation());
+                savedCourse.getTypicalRotation(),
+                savedCourse.getDescription(),
+                savedCourse.getNotes());
 
         return ResponseEntity.ok(responseDTO);
     }

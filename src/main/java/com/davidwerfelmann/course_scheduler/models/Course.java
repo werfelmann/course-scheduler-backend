@@ -45,11 +45,17 @@ public class Course extends AbstractEntity {
     public Course () {};
 
     public Course(String courseNumber, String name, int minCreditHours, int maxCreditHours, Set<Rotation> typicalRotation) {
+        this(courseNumber, name, minCreditHours, maxCreditHours, typicalRotation, null, null);
+    }
+
+    public Course(String courseNumber, String name, int minCreditHours, int maxCreditHours, Set<Rotation> typicalRotation, String description, String notes) {
         this.courseNumber = courseNumber;
         this.name = name;
         this.minCreditHours = minCreditHours;
         this.maxCreditHours = maxCreditHours;
         this.typicalRotation.addAll(typicalRotation);
+        this.description = description;
+        this.notes = notes;
     }
 
     public String getCourseNumber() {
@@ -103,6 +109,14 @@ public class Course extends AbstractEntity {
 
     public void removeTypicalRotation(Rotation rotation) {
         typicalRotation.remove(rotation);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getNotes() {
