@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Section extends AbstractEntity {
@@ -31,15 +34,23 @@ public class Section extends AbstractEntity {
     @JoinColumn(name = "location_id")
     private Location location;
 
+    @Enumerated(EnumType.STRING)
+    private Set<DaysOfWeek> days;
+
     private LocalTime startTime;
 
     private LocalTime stopTime;
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MeetingTime> meetingTimes = new ArrayList<>();
 
     private boolean isOnline = false;
 
     @ManyToOne
     @JoinColumn(name = "semester_schedule_id")
     private SemesterSchedule semesterSchedule;
+
+    private String generatedFrom;
 
     public Section() {}
 
@@ -162,6 +173,38 @@ public class Section extends AbstractEntity {
         if (semesterSchedule != null && !semesterSchedule.getSections().contains(this)) {
             semesterSchedule.addSection(this);
         }
+    }
+
+    public List<MeetingTime> getMeetingTimes() {
+        return meetingTimes;
+    }
+
+    public void setMeetingTimes(List<MeetingTime> meetingTimes) {
+        this.meetingTimes = meetingTimes;
+
+        if (meetingTimes != null) {
+            for (MeetingTime mt : meetingTimes) {
+                mt.setSection(this);
+            }
+        }
+    }
+
+    public void addMeetingTime(MeetingTime meetingTime) {
+        meetingTimes.add(meetingTime);
+        meetingTime.setSection(this);
+    }
+
+    public void removeMeetingTime(MeetingTime meetingTime) {
+        meetingTimes.remove(meetingTime);
+        meetingTime.setSection(null);
+    }
+
+    public Set<DaysOfWeek> getDays() {
+        return days;
+    }
+
+    public void setDays(Set<DaysOfWeek> days) {
+        this.days = days;
     }
 
     @Override
