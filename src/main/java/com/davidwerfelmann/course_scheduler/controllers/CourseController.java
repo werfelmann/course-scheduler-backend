@@ -27,7 +27,7 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<List<CourseDTO>> getAllCourses() {
-        List<Course> courseList = (List<Course>) courseRepository.findAll();
+        List<Course> courseList = courseRepository.findAll();
         List<CourseDTO> courseDTOList = courseList.stream()
                 .map(DTOMapper::courseToDTO)
                 .collect(Collectors.toList());

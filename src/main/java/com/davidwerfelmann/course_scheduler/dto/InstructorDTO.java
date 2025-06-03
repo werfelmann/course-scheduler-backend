@@ -1,14 +1,20 @@
 package com.davidwerfelmann.course_scheduler.dto;
 
 public class InstructorDTO {
+    private Long id;
     private String firstName;
     private String lastName;
 
     public InstructorDTO() {}
 
-    public InstructorDTO(String firstName, String lastName) {
+    public InstructorDTO(Long id, String firstName, String lastName) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getFirstName() {

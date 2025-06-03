@@ -10,7 +10,7 @@ import java.util.List;
 public class SemesterSchedule extends AbstractEntity {
 
     @NotNull
-    private String semester;
+    private Semester semester;
 
     @NotNull
     private int year;
@@ -23,17 +23,17 @@ public class SemesterSchedule extends AbstractEntity {
 
     public SemesterSchedule() {};
 
-    public SemesterSchedule(String semester, int year, List<Section> sections) {
+    public SemesterSchedule(Semester semester, int year, List<Section> sections) {
         this.semester = semester;
         this.year = year;
         this.sections = sections;
     }
 
-    public String getSemester() {
+    public Semester getSemester() {
         return semester;
     }
 
-    public void setSemester(String semester) {
+    public void setSemester(Semester semester) {
         this.semester = semester;
     }
 

@@ -12,6 +12,7 @@ public class DTOMapper {
 
     public static SemesterScheduleDTO semesterScheduletoToDTO(SemesterSchedule semesterSchedule) {
         return new SemesterScheduleDTO(
+                semesterSchedule.getId(),
                 semesterSchedule.getSemester(),
                 semesterSchedule.getYear(),
                 semesterSchedule.getSections().stream()
@@ -22,14 +23,16 @@ public class DTOMapper {
 
     public static SectionDTO sectionToDTO(Section section) {
         return new SectionDTO(
-//                section.getSectionNumber(),
-////                toDTO(section.getCourse()),
-////                toDTO(section.getInstructor()),
-//                section.getLocation() != null ? toDTO(section.getLocation()) : null,
-//                section.getAcademicArea(),
-//                section.getStartTime() != null ? section.getStartTime().format(TIME_FORMATTER) : "Not Scheduled",
-//                section.getStopTime() != null ? section.getStopTime().format(TIME_FORMATTER) : "Not Scheduled",
-//                section.isOnline()
+                section.getId(),
+                section.getSectionNumber(),
+                DTOMapper.courseToDTO(section.getCourse()),
+                DTOMapper.instructorToDTO(section.getInstructor()),
+                DTOMapper.locationToDTO(section.getLocation()),
+                section.getAcademicArea(),
+                section.getStartTime().toString(),
+                section.getStopTime().toString(),
+                section.isOnline(),
+                section.getSemesterSchedule()
         );
     }
 
@@ -48,6 +51,7 @@ public class DTOMapper {
 
     public static InstructorDTO instructorToDTO(Instructor instructor) {
         return new InstructorDTO(
+                instructor.getId(),
                 instructor.getFirstName(),
                 instructor.getLastName()
         );
@@ -55,6 +59,7 @@ public class DTOMapper {
 
     public static LocationDTO locationToDTO(Location location) {
         return new LocationDTO(
+                location.getId(),
                 location.getBuilding(),
                 location.getRoom()
         );

@@ -1,9 +1,10 @@
 package com.davidwerfelmann.course_scheduler.dto;
 
 import com.davidwerfelmann.course_scheduler.models.Area;
+import com.davidwerfelmann.course_scheduler.models.SemesterSchedule;
 
 public class SectionDTO {
-
+    private Long id;
     private int sectionNumber;
     private CourseDTO course;
     private InstructorDTO instructor;
@@ -11,11 +12,13 @@ public class SectionDTO {
     private Area academicArea;
     private String startTime;
     private String stopTime;
-    private Boolean isOnline;
+    private boolean isOnline = false;
+    private SemesterSchedule semesterSchedule;
 
     public SectionDTO() {}
 
-    public SectionDTO(int sectionNumber, CourseDTO course, InstructorDTO instructor, LocationDTO location, Area academicArea, String startTime, String stopTime, Boolean isOnline) {
+    public SectionDTO(Long id, int sectionNumber, CourseDTO course, InstructorDTO instructor, LocationDTO location, Area academicArea, String startTime, String stopTime, Boolean isOnline, SemesterSchedule semesterSchedule) {
+        this.id = id;
         this.sectionNumber = sectionNumber;
         this.course = course;
         this.instructor = instructor;
@@ -24,6 +27,11 @@ public class SectionDTO {
         this.startTime = startTime;
         this.stopTime = stopTime;
         this.isOnline = isOnline;
+        this.semesterSchedule = semesterSchedule;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public int getSectionNumber() {
@@ -82,12 +90,20 @@ public class SectionDTO {
         this.stopTime = stopTime;
     }
 
-    public Boolean isOnline() {
+    public boolean isOnline() {
         return isOnline;
     }
 
-    public void setOnline(Boolean online) {
+    public void setOnline(boolean online) {
         isOnline = online;
+    }
+
+    public SemesterSchedule getSemesterSchedule() {
+        return semesterSchedule;
+    }
+
+    public void setSemesterSchedule(SemesterSchedule semesterSchedule) {
+        this.semesterSchedule = semesterSchedule;
     }
 
     @Override
@@ -100,7 +116,8 @@ public class SectionDTO {
                 ", academicArea=" + academicArea +
                 ", startTime='" + startTime + '\'' +
                 ", stopTime='" + stopTime + '\'' +
-                ", isOnline=" + isOnline +
+                ", isOnline=" + isOnline + '\'' +
+                ", semesterSchedule =" + semesterSchedule + '\'' +
                 '}';
     }
 

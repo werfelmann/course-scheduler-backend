@@ -47,14 +47,15 @@ public class Section extends AbstractEntity {
     private boolean isOnline = false;
 
     @ManyToOne
-    @JoinColumn(name = "semester_schedule_id")
+    @JoinColumn(name = "semester_schedule_id", nullable = false)
+    @NotNull
     private SemesterSchedule semesterSchedule;
 
     private String generatedFrom;
 
     public Section() {}
 
-    public Section(Course course, int sectionNumber, Area academicArea, Instructor instructor, Location location, LocalTime startTime, LocalTime stopTime, SemesterSchedule semesterSchedule) {
+    public Section(Course course, int sectionNumber, Area academicArea, Instructor instructor, Location location, LocalTime startTime, LocalTime stopTime, boolean isOnline, SemesterSchedule semesterSchedule) {
         this.course = course;
         this.sectionNumber = sectionNumber;
         this.academicArea = academicArea;
@@ -62,15 +63,12 @@ public class Section extends AbstractEntity {
         this.location = location;
         this.startTime = startTime;
         this.stopTime = stopTime;
-        this.isOnline = false;
+        this.isOnline = isOnline;
         setSemesterSchedule(semesterSchedule);
     }
 
-    public Section(Course course, int sectionNumber, Instructor instructor, boolean isOnline) {
-        this.course = course;
-        this.sectionNumber = sectionNumber;
-        this.instructor = instructor;
-        this.isOnline = isOnline;
+    public Section(Course course, int sectionNumber, Area academicArea, Instructor instructor, boolean isOnline, SemesterSchedule semesterSchedule) {
+        this(course, sectionNumber, academicArea, instructor, null, null, null, isOnline, semesterSchedule);
     }
 
     @AssertTrue(message = "Start time must be earlier than stop time.")
