@@ -59,9 +59,10 @@ public class SectionController {
     }
 
     @PostMapping
-    public ResponseEntity<SectionDTO> createSection(@RequestBody @Valid SectionDTO sectionDTO, Errors errors) {
+    public ResponseEntity<?> createSection(@RequestBody @Valid SectionDTO sectionDTO, Errors errors) {
+
         if (errors.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.badRequest().body(errors.getAllErrors());
         }
 
         Course course = courseRepository.findById(sectionDTO.getCourse().getId())
